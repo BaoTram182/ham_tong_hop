@@ -1,1 +1,128 @@
+#include <iostream>
+#include <string>
+using namespace std;
+struct Sach {
+    int masach;
+    string tensach;
+    string tacgia;
+    string nxb;
+    double dongia;
+};
 
+// nhập
+void nhapsach(Sach & s) {
+    cout << "Nhập mã: ";
+    cin >> s.masach;
+    cin.ignore();
+    cout << "Nhập tên: ";
+    getline(cin, s.tensach);
+    cout << "Nhập tác giả: ";
+    getline(cin, s.tacgia);
+    cout << "Nhập nhà xuất bản: ";
+    getline(cin, s.nxb);
+    do{
+    cout << "Nhập giá: ";
+    cin >> s.dongia;
+    } while(s.dongia < 0);
+}
+
+// xếp loại sách
+void xeploaisach(Sach s) {
+    if( s.dongia<100){
+        cout << "Loại sách: Rẻ";
+    } else {
+        if(s.dongia < 200) {
+            cout << "Loại sách: Trung bình";
+        } else {
+            cout << "Loại sách: Đắt";
+        }
+    }
+    
+}
+
+// tính phạt
+double tinhphat(Sach s) {
+    return (s.dongia*0.2);
+}
+
+// xuất
+void xuatsach(Sach s) {
+    cout << "Mã sách: " << s.masach << " ;\n" 
+         << "Tên sách: " << s.tensach << " ;\n"
+         << "Tên TG: " << s.tacgia << " ;\n"
+         << "NXB: " << s.nxb << " ;\n"
+         << "Đơn giá: " << s.dongia << " ;\n";
+    
+    xeploaisach(s);
+
+    cout << " ; " << "Tiền phạt: " << tinhphat(s) << endl;
+}
+
+int main() {
+    Sach dssach[3];
+    // nhập 
+    for (int i=0; i<3; i++){
+        nhapsach(dssach[i]);
+    }
+
+    int chon;
+    do {
+        cout << "╔══════════════════════════════════════════╗" << endl;
+        cout << "║             QUẢN LÝ KHO SÁCH             ║" << endl;
+        cout << "╠══════════════════════════════════════════╣" << endl;
+        cout << "║ 1. Xem danh sách sách                    ║" << endl;
+        cout << "║ 2. Đếm số lượng sách có đơn giá >100     ║" << endl;
+        cout << "║ 3. Sách có đơn giá cao nhất              ║" << endl;
+        cout << "║ 0. Thoát                                 ║" << endl;
+        cout << "╚══════════════════════════════════════════╝" << endl;
+        cout << "Nhập lựa chọn: ";
+        cin >> chon;
+
+        switch(chon) {
+            case 1:  
+                cout << "Danh sách sách: " << endl;
+                for(int i = 0; i < 3; i++) {
+                    xuatsach(dssach[i]);
+                    cout << " ";
+                };
+                break;
+            case 2: {
+                int dem = 0;
+
+                for(int i = 0; i < 3; i++) {
+                    if(dssach[i].dongia > 100) 
+                    dem++;
+                }
+                cout << "Số lượng sách >100: " << dem << endl;
+                break;
+            }
+
+            case 3: { 
+                double maxdg;
+                int mamax;
+
+                mamax = dssach[0].masach;
+                maxdg = dssach[0].dongia;
+
+                for(int i = 1; i < 3; i++) {
+                    if(dssach[i].dongia > maxdg) {
+                        maxdg = dssach[i].dongia;
+                        mamax = dssach[i].masach;
+                    }
+                }
+                cout << " Sách có đơn giá lớn nhất là " << mamax << " với đơn giá: " << maxdg << endl;
+                break;
+            }
+
+            case 0: break;
+    
+            default: cout << "Chỉ chọn 1,2,3 hoặc 0. Vui lòng nhập lại!";
+                break;
+        }
+        
+    } while(chon != 0);           
+
+    
+    
+    return 0;
+}
